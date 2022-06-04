@@ -48,8 +48,33 @@ func TestValidateRecord(t *testing.T) {
     }
     for _, record := range dnsRecords {
         recordType := valdateRecordType(record)
+        t.Log("Validating Record Type", record)
         if recordType != record {
             t.Errorf("Failed to validate record string")
+        }
+        t.Log("Success")
+    }
+}
+
+func TestDOHRequest(t *testing.T) {
+
+    dnsRecords := []string{
+        "SOA",
+        "NS",
+        "A",
+        "AAAA",
+        "CNAME",
+        "MX",
+        "SRV",
+        "TXT",
+    }
+
+    for _,record := range dnsRecords {
+        t.Log("Resolving", record, "Record")
+        body := DOHRequest("https://dns.google/resolve?name=", "exmaple.com", record)
+        t.Log("Received", len(body), "bytes")
+        if body == nil {
+            t.Errorf("Empty reponse")
         }
     }
 
