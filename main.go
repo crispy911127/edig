@@ -54,29 +54,29 @@ func DOHRequest(provider string, recordName string, recordType string) (body []b
 	return body
 }
 
-func valdateRecordType(recordType string) (record_type string) {
+func valdateRecordType(recordType string) (rRecordType string) {
 	if recordType != "Not Specified" {
 		recordType = strings.ToUpper(recordType)
 		switch recordType {
 		case "A", "NS", "CNAME", "SOA", "PTR", "HINFO", "MX":
-			record_type = recordType
+			rRecordType = recordType
 		case "TXT", "RP", "AFSDB", "SIG", "KEY", "AAAA", "LOC":
-			record_type = recordType
+			rRecordType = recordType
 		case "SRV", "NAPTR", "KX", "CERT", "DNAME", "APL", "DS":
-			record_type = recordType
+			rRecordType = recordType
 		case "NSEC3", "NSEC3PARAM", "TLSA", "SMIMEA", "HIP", "CDS":
-			record_type = recordType
+			rRecordType = recordType
 		case "CDNSKEY", "OPENPGPKEY", "CSYNC", "ZONEMD", "SVCB", "HTTPS":
-			record_type = recordType
+			rRecordType = recordType
 		case "EUI48", "EUI64", "TKEY", "TSIG", "URI", "CAA", "TA", "DLV":
-			record_type = recordType
+			rRecordType = recordType
 		default:
 			log.Fatalln("Unrecognized DNS Record Type")
 		}
 	} else {
-		record_type = recordType
+		rRecordType = recordType
 	}
-	return record_type
+	return rRecordType
 }
 
 func resolveGoogle(recordName string, recordType string, c chan []byte) {

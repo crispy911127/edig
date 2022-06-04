@@ -35,7 +35,7 @@ jobs:
             go install -v golang.org/x/lint/golint
 
       - name: Run build
-        run: go build .
+        run: go build . && ./edig
 
       - name: Run vet & lint
         run: |
