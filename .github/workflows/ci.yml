@@ -72,5 +72,14 @@ jobs:
         with:
             go-version: '>=1.17.0'
 
-      - name: Run build
-        run: go build . && ./edig
+      - name: Run build and Test Command
+        run: |
+          go build .
+          ./edig
+          ./edig -t A
+          ./edig -n example.com
+          ./edig -n EXaMpLe.com -t a
+          ./edig -t all
+          ./edig -t extensive
+          ./edig -n example.com -t all
+          ./edig -n example.com -t extensive
