@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestValidateRecord(t *testing.T) {
     dnsRecords := []string{
@@ -76,6 +78,27 @@ func TestDOHRequest(t *testing.T) {
         if body == nil {
             t.Errorf("Empty reponse")
         }
+    }
+}
+
+func TestDecodeResponse(t *testing.T) {
+    data := []byte{
+        123,34,83,116,97,116,117,115,34,58,48,44,34,84,67,34,58,102,97,108,115,101,44,34,82,68,
+        34,58,116,114,117,101,44,34,82,65,34,58,116,114,117,101,44,34,65,68,34,58,116,114,117,
+        101,44,34,67,68,34,58,102,97,108,115,101,44,34,81,117,101,115,116,105,111,110,34,58,91,
+        123,34,110,97,109,101,34,58,34,101,120,97,109,112,108,101,46,99,111,109,34,44,34,116,
+        121,112,101,34,58,49,53,125,93,44,34,65,110,115,119,101,114,34,58,91,123,34,110,97,109,
+        101,34,58,34,101,120,97,109,112,108,101,46,99,111,109,34,44,34,116,121,112,101,34,58,49,
+        53,44,34,84,84,76,34,58,56,54,51,53,49,44,34,100,97,116,97,34,58,34,48,32,46,34,125,93,125,
+    }
+
+    names, types, ttls, values := decodeResponse(data)
+
+    if len(names) > 0 {
+        t.Log("Decoded Data Successfully!")
+        t.Log("Decoded Values:",names,types,ttls,values)
+    } else {
+        t.Errorf("Unable to decode response")
     }
 
 }
