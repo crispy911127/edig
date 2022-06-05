@@ -2,6 +2,7 @@ package main
 
 import (
 	"testing"
+    "time"
 )
 
 func TestValidateRecord(t *testing.T) {
@@ -100,5 +101,43 @@ func TestDecodeResponse(t *testing.T) {
     } else {
         t.Errorf("Unable to decode response")
     }
+}
 
+func TestResolveGoogle(t *testing.T) {
+
+    timer1 := time.NewTimer(1 * time.Second)
+    google := make(chan []byte)
+    go resolveGoogle("google.co.za", "a", google)
+    select {
+    case x := <-google:
+        t.Log("Received", len(x), "bytes")
+    case <-timer1.C:
+        t.Errorf("Response took longer than a second")
+    }
+}
+
+func TestResolveCloudflare(t *testing.T) {
+
+    timer1 := time.NewTimer(1 * time.Second)
+    cloudflare := make(chan []byte)
+    go resolveCloudflare("cloudflare.net", "a", cloudflare)
+    select {
+    case x := <-cloudflare:
+        t.Log("Received", len(x), "bytes")
+    case <-timer1.C:
+        t.Errorf("Response took longer than a second")
+    }
+}
+
+func TestResolveQuad9(t *testing.T) {
+
+    timer1 := time.NewTimer(1 * time.Second)
+    quad9 := make(chan []byte)
+    go resolveQuad9("quad9.net", "a", quad9)
+    select {
+    case x := <-quad9:
+        t.Log("Received", len(x), "bytes")
+    case <-timer1.C:
+        t.Errorf("Response took longer than a second")
+    }
 }
